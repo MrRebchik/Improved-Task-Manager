@@ -35,7 +35,19 @@ namespace WinForms_Task_Manager_with_DB
         public int Id { get; private set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public State State { get; private set; }
+        public State State 
+        { 
+            get{ return State; } 
+            set
+            {
+                if (value == State.Done)
+                {
+                    this.State = value;
+                    this.RealFinishingDate = DateTime.Now;
+                }
+                else { this.State = value; }
+            }
+        }
         public int? Parent { get; set; }
         public int?[] Child {get; set; }
         public DateTime? DeadLine { get; set; }
@@ -48,7 +60,6 @@ namespace WinForms_Task_Manager_with_DB
         #region 
         public Mission(int id, string name, string descript, Difficulty dif, Priority priority, DateTime? deadLine)
         {
-            this.CreationDate = DateTime.Now;
             this.Id = id;
             this.Name = name;
             this.Description = descript;
@@ -87,17 +98,5 @@ namespace WinForms_Task_Manager_with_DB
 
         }
         #endregion
-
-        public void ChangeStateTo(State i)
-        {
-            if(i == State.Done)
-            {
-                this.State = i;
-                this.RealFinishingDate = DateTime.Now;
-            }
-            else { this.State = i; }
-        }
-
-
     }
 }
