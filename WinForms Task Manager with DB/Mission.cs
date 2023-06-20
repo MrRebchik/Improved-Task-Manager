@@ -49,7 +49,7 @@ namespace WinForms_Task_Manager_with_DB
             }
         }
         public int? Parent { get; set; }
-        public int?[] Child {get; set; }
+        public int?[] Children {get; set; }
         public DateTime? DeadLine { get; set; }
         public DateTime CreationDate { get; private set; }
         public DateTime? RealFinishingDate { get; private set; }
