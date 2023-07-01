@@ -30,6 +30,9 @@ namespace WinForms_Task_Manager_with_DB
         Late,
         Done
     }
+    /// <summary>
+    /// Класс задания
+    /// </summary>
     internal class Mission
     {
         public int Id { get; private set; }
@@ -51,8 +54,8 @@ namespace WinForms_Task_Manager_with_DB
         public int? Parent { get; set; }
         public int?[] Children {get; set; }
         public DateTime? DeadLine { get; set; }
-        public DateTime CreationDate { get; private set; }
-        public DateTime? RealFinishingDate { get; private set; }
+        public DateTime CreationDate { get; set; }
+        public DateTime? RealFinishingDate { get; set; }
         public Difficulty Difficulty { get; set; }
         public Priority Priority { get; set; }
 
