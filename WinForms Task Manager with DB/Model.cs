@@ -107,12 +107,15 @@ namespace WinForms_Task_Manager_with_DB
 
         }
         /// <summary>
-        /// Метод для удаления задания под номером
+        /// Метод для удаления задания под номером <i>id</i>
         /// </summary>
         /// <param name="id">номер задания</param>
         public void DeleteMission(int id)
         {
-
+            EntireList.Remove(EntireList.Where(x => x.Id == id).ToList()[0]);
+            string commandText = "DELETE  FROM EntireMissionsDB WHERE id =" + id.ToString();
+            SqlParameter[] parameters = null;
+            SqlHelper.ExecuteNonQuery(ConnectionString, commandText, CommandType.Text, parameters);
         }
     }
 }
