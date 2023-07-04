@@ -80,13 +80,30 @@ namespace WinForms_Task_Manager_with_DB
 
         }
         /// <summary>
-        /// Метод для изменения параметров задания
+        /// Метод для изменения параметров задания. Обновляет значение в списке модели и в базе данных.
         /// </summary>
         /// <param name="id"> номер задания </param>
         /// <param name="propertyName"> название поля для изменения</param>
         /// <param name="value"> требуемое значение </param>
-        public void EditMission<T>(int id, string propertyName, T value)
+        public void EditMission<T>(int missionId, string propertyName, T value)
         {
+            var item = EntireList.Where(x => x.Id == missionId);
+            Type type = typeof(Mission);
+            var propertyInfo = type.GetProperty(propertyName);
+            if (propertyInfo.PropertyType != typeof(T))
+            {
+                throw new Exception("incorrect type");
+            }
+            propertyInfo.SetValue(item, value);
+            string commandText = 
+                "Update EntireMissionsDB set " 
+                + propertyName 
+                + " = " 
+                + value
+                +"where id = "
+                + missionId;
+            SqlParameter[] parameters = null;
+            SqlHelper.ExecuteNonQuery(ConnectionString, commandText, CommandType.Text,parameters);
 
         }
         /// <summary>
