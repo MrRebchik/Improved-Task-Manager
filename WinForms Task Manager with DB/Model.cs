@@ -37,12 +37,11 @@ namespace WinForms_Task_Manager_with_DB
                             Name = reader.GetString(1),
                             Description = reader.GetString(2),
                             State = (State)reader.GetInt32(3),
-                            Parent = reader.GetInt32(4),
-                            DeadLine = reader.GetDateTime(5),
-                            CreationDate = reader.GetDateTime(6),
-                            RealFinishingDate = reader.GetDateTime(7),
-                            Difficulty = (Difficulty)reader.GetInt32(8),
-                            Priority = (Priority)reader.GetInt32(9),
+                            DeadLine = reader.GetDateTime(4),
+                            CreationDate = reader.GetDateTime(5),
+                            RealFinishingDate = reader.GetDateTime(6),
+                            Difficulty = (Difficulty)reader.GetInt32(7),
+                            Priority = (Priority)reader.GetInt32(8),
 
                         };
 
@@ -63,7 +62,6 @@ namespace WinForms_Task_Manager_with_DB
                 new SqlParameter("@Name", item.Name),
                 new SqlParameter("@Description", item.Description),
                 new SqlParameter("@State", (int)item.State),
-                new SqlParameter("@Parent", item.Parent),
                 new SqlParameter("@DeadLine", item.DeadLine),
                 new SqlParameter("@CreationDate", item.CreationDate),
                 new SqlParameter("@RealFinishingDate", item.RealFinishingDate),
@@ -73,8 +71,8 @@ namespace WinForms_Task_Manager_with_DB
             SqlHelper.ExecuteNonQuery(
                 ConnectionString, 
                 "Insert Into EntireMissionsDB " +
-                "(Name, Description, State, Parent, DeadLine, CreationDate, RealFinishingDate, Difficulty, Priority) " +
-                "Values (N@Name, N@Description, @State, @Parent, @DeadLine, @CreationDate, @RealFinishingDate, @Difficulty, @Priority)",
+                "(Name, Description, State, DeadLine, CreationDate, RealFinishingDate, Difficulty, Priority) " +
+                "Values (N@Name, N@Description, @State, @DeadLine, @CreationDate, @RealFinishingDate, @Difficulty, @Priority)",
                 CommandType.Text,
                 parameters
                 );
@@ -86,7 +84,7 @@ namespace WinForms_Task_Manager_with_DB
         /// <param name="id"> номер задания </param>
         /// <param name="propertyName"> название поля для изменения</param>
         /// <param name="value"> требуемое значение </param>
-        public void EditMission<T>(int missionId, string propertyName, T value)
+        public void EditMission<T>(int missionId, string propertyName, T value)//определить какое поле в какой таблице
         {
             var item = EntireList.Where(x => x.Id == missionId);
             Type type = typeof(Mission);
