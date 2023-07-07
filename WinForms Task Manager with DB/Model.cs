@@ -50,6 +50,7 @@ namespace WinForms_Task_Manager_with_DB
                     }
                 }
             }
+            OnModelChanged?.Invoke();
         }
         /// <summary>
         /// Добавление очередного задания. Дублируется в список модели и в базу данных
@@ -77,7 +78,7 @@ namespace WinForms_Task_Manager_with_DB
                 CommandType.Text,
                 parameters
                 );
-
+            OnModelChanged?.Invoke();
         }
         /// <summary>
         /// Метод для изменения параметров задания. Обновляет значение в списке модели и в базе данных.
@@ -104,6 +105,7 @@ namespace WinForms_Task_Manager_with_DB
                 + missionId;
             SqlParameter[] parameters = null;
             SqlHelper.ExecuteNonQuery(ConnectionString, commandText, CommandType.Text,parameters);
+            OnModelChanged?.Invoke();
 
         }
         /// <summary>
@@ -116,6 +118,10 @@ namespace WinForms_Task_Manager_with_DB
             string commandText = "DELETE  FROM EntireMissionsDB WHERE id =" + id.ToString();
             SqlParameter[] parameters = null;
             SqlHelper.ExecuteNonQuery(ConnectionString, commandText, CommandType.Text, parameters);
+            OnModelChanged?.Invoke();
         }
+
+        delegate void ModelHandler();
+        event ModelHandler OnModelChanged;
     }
 }
