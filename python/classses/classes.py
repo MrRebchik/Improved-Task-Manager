@@ -8,5 +8,5 @@ class Task:
         for param, value in params.items():
             self.parameters[param] = value
         json_str = json.dumps(self.parameters)
-        with open(f'{name}', 'w') as f:
+        with open(f'{self.parameters["date"]}.{name}', 'w') as f:
             f.write(json_str)
