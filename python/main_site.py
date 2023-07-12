@@ -4,6 +4,7 @@ from flask import request
 from flask import flash
 from flask import redirect
 from flask import url_for
+from flask import session
 from oop.classes import Task
 import os
 from flask_sqlalchemy import SQLAlchemy
@@ -27,6 +28,22 @@ messages = [{'title': 'Message One',
 def index():
     return render_template('index.html', messages=messages)
 
+@app.route('/registration/', methods=('GET', 'POST'))
+def registration():
+    if request.method == 'POST':
+        login = request.form['login']
+        password = request.form['password']
+
+        if not login:
+            flash('Login is required!')
+        elif not password:
+            flash('Password is required!')
+        else:
+            db.session.add(User(login=login, password=password))
+            db.session.commit()
+            return redirect(url_for('index'))
+        return render_template('registration.html')
+
 
 @app.route('/create/', methods=('GET', 'POST'))
 def create():
@@ -43,7 +60,6 @@ def create():
             flash('Date is required!')
         else:
             Task(title, **{'content': content, 'date': date})
-            db.session.add(User(login=title, password='hui228'))
             db.session.commit()
             return redirect(url_for('index'))
     return render_template('create.html')
