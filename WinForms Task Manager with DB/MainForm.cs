@@ -1,112 +1,173 @@
 ﻿using System;
 using System.Collections.Generic;
+
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
+
 
 namespace WinForms_Task_Manager_with_DB
 {
-    internal class MainForm : Form
+    public partial class MainForm : Form
     {
-        private TabPage tabPage1;
-        private TabPage tabPage2;
-        private TabPage tabPage3;
-        private TabControl tabControl1;
-        private Graphics graphics;
+        #region объявление TabControl
+        private RoundButton switchPanelButton1;
+        private RoundButton switchPanelButton2;
+        private RoundButton switchPanelButton3;
+        private Panel panel1;
+        private Panel panel2;
+        private Panel panel3;
+        #endregion
+        #region объявление элементов вкладки Списков
+        private TableLayoutPanel tableLayoutPanel1;
+        private TableLayoutPanel tableLayoutPanel2;
+        private Panel buttonPanel;
+        private RoundButton lists;
+        private RoundButton stickers;
+        private RoundButton hierarchy;
+        private Panel listPanel;
+        private Panel stickersPanel;
+        private Panel hierarchyPanel;
 
+        #endregion
+        private Color tabsColor = Color.PowderBlue;
         public MainForm()
         {
             InitializeComponent();
-            graphics = CreateGraphics();
-            this.BackColor = Color.BlanchedAlmond;
-            Load += (sender, args) => OnSizeChanged(EventArgs.Empty);
-            SizeChanged += (sender, args) =>
-            {
-                ResizeTabs();
-            };
-            Paint += (sender, args) => 
-            { 
-                //RoundCornerTabControl(sender, args);
-                //Invalidate();
-            };
-        }
-        private void RoundCornerTabControl(object sender, PaintEventArgs e)
-        {
-            GraphicsPath pagePath = new GraphicsPath();
-            Rectangle pageRectangle = tabControl1.ClientRectangle;
-            tabControl1.Region = new Region(pagePath);
-            int radius = 10;
-            int tabLength = 20;
-
-            e.Graphics.DrawPath(new Pen(Color.Aqua, 2), pagePath);
-            e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
-
-            pagePath.AddArc(0, 0, radius, radius, 180, 90);
-            pagePath.AddLine(new Point(radius, radius), new Point(radius + tabLength, radius));
-            pagePath.AddArc(radius + tabLength, radius, radius, radius, 270, 90);
-            pagePath.AddLine(new Point(2 * radius + tabLength, 2 * radius), new Point(300, 72));
-            pagePath.AddArc(300, 72, 36, 36, 270, 90);
-            pagePath.AddLine(new Point(336, 108), new Point(336, 264));
-            pagePath.AddArc(300, 264, 36, 36, 0, 90);
-            pagePath.AddLine(new Point(300, 300), new Point(72, 300));
-            pagePath.AddArc(0, 264, 36, 36, 90, 90);
-
-            tabControl1.Region = new Region(pagePath);
-
-
+            this.MinimumSize = new Size(815, 690);
+            #region подписка на события
+            panel1.Paint += (sender, e) => panel_Paint(panel1, sender, e);
+            panel2.Paint += (sender, e) => panel_Paint(panel2, sender, e);
+            panel3.Paint += (sender, e) => panel_Paint(panel3, sender, e);
+            switchPanelButton1.Click += (sender, e) => switchPanelButton1_Click(sender, e);
+            switchPanelButton2.Click += (sender, e) => switchPanelButton2_Click(sender, e);
+            switchPanelButton3.Click += (sender, e) => switchPanelButton3_Click(sender, e);
+            buttonPanel.Paint += (sender, e) => panel_Paint(buttonPanel, sender, e);
+            #endregion
         }
         private void InitializeComponent()
         {
-            this.tabPage1 = new TabPage();
-            this.tabPage2 = new TabPage();
-            this.tabPage3 = new TabPage();
-            this.tabControl1 = new TabControl();
-             
+            #region создание TabControl
+            panel1 = new Panel()
+            {
+                Location = new Point(10, 40),
+                Size = new Size(780, 600),
+                BackColor = tabsColor
+            };
+            panel2 = new Panel()
+            {
+                Location = new Point(10, 40),
+                Size = new Size(780, 600),
+                BackColor = tabsColor
+            };
+            panel3 = new Panel()
+            {
+                Location = new Point(10, 40),
+                Size = new Size(780, 600),
+                BackColor = tabsColor
+            };
+            Controls.Add(panel1);
+            Controls.Add(panel2);
+            Controls.Add(panel3);
+            panel2.Hide();
+            panel3.Hide();
+            switchPanelButton1 = new RoundButton(25)
+            {
+                Location = new Point(10, 10),
+                Size = new Size(120, 60),
+                BackColor = tabsColor,
+                Text = "Списки",
+                TextAlign = ContentAlignment.TopCenter
+            };
+            switchPanelButton2 = new RoundButton(25)
+            {
+                Location = new Point(130, 10),
+                Size = new Size(120, 60),
+                BackColor = tabsColor,
+                Text = "План на день",
+                TextAlign = ContentAlignment.TopCenter
+            };
+            switchPanelButton3 = new RoundButton(25)
+            {
+                Location = new Point(250, 10),
+                Size = new Size(120, 60),
+                BackColor = tabsColor,
+                Text = "Настройки",
+                TextAlign = ContentAlignment.TopCenter
+            };
+            Controls.Add(switchPanelButton1);
+            Controls.Add(switchPanelButton2);
+            Controls.Add(switchPanelButton3);
+            #endregion
+            #region создание Списков
+            tableLayoutPanel1 = new TableLayoutPanel()
+            {
+                Dock = DockStyle.Fill,
+                Location = new Point(0, 0),
+                Size = new Size(panel1.Width,panel1.Height),
+                BackColor = Color.Orchid
+            };
+            tableLayoutPanel1.RowStyles.Clear();
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute,80));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 90));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent,100));
+            buttonPanel = new Panel()
+            {
+                BackColor = Color.PaleGreen,
+                Size = new Size()
+            };
+            tableLayoutPanel1.Controls.Add(buttonPanel,0,0);
+            buttonPanel.Location = new Point(100, 100);
+            panel1.Controls.Add(tableLayoutPanel1);
+            #endregion
+            #region создание Пданировщика
 
-            tabPage1.Text = "Список заданий";
-            tabPage1.TabIndex = 0;
-            tabPage1.BackColor = Color.Blue;
+            #endregion
+            #region создание Настроек
 
-            tabPage2.Text = "Планировщик";
-            tabPage2.TabIndex = 1;
-            tabPage2.BackColor = Color.DarkSlateBlue;
-
-            tabPage3.Text = "Настройки";
-            tabPage3.TabIndex = 2;
-            tabPage3.BackColor = Color.Blue;
-
-
-            tabControl1.SelectedIndex = 0;
-            tabControl1.TabIndex = 0;
-            this.Text = "Планировщик дел";
-
-            //// Adds controls to the first tab page.
-            //tabPage1.Controls.Add(this.tab1Label1);
-            //tabPage1.Controls.Add(this.tab1Button1);
-            // Adds the TabControl to the form.
-            this.Controls.Add(this.tabControl1);
-            // Adds the tab pages to the TabControl.
-            tabControl1.Controls.Add(this.tabPage1);
-            tabControl1.Controls.Add(this.tabPage2);
-            tabControl1.Controls.Add(this.tabPage3);
+            #endregion
         }
-        private void ResizeTabs()
+        void panel_Paint(Panel p, object sender, PaintEventArgs e)
         {
-            tabControl1.Location = new Point(0, 0);
-            tabControl1.Size = new Size(this.ClientSize.Width, this.ClientSize.Height);
+            int radius = 20;
+            GraphicsPath path = new GraphicsPath();
+            path.AddLine(radius, 0, p.Width - radius, 0);
+            path.AddArc(p.Width - radius, 0, radius, radius, 270, 90);
+            path.AddLine(p.Width, radius, p.Width, p.Height - radius);
+            path.AddArc(p.Width - radius, p.Height - radius, radius, radius, 0, 90);
+            path.AddLine(p.Width - radius, p.Height, radius, p.Height);
+            path.AddArc(0, p.Height - radius, radius, radius, 90, 90);
+            path.AddLine(0, p.Height - radius, 0, radius);
+            path.AddArc(0, 0, radius, radius, 180, 90);
+            p.Region = new Region(path);
         }
-        
-        
-
-        private void tab1Button1_Click(object sender, System.EventArgs e)
+        #region обработчики событий переключения вкладок
+        private void switchPanelButton1_Click(object sender, EventArgs e)
         {
-            // Inserts the code that should run when the button is clicked.
+            panel1.Show();
+            panel2.Hide();
+            panel3.Hide();
         }
-
+        private void switchPanelButton2_Click(object sender, EventArgs e)
+        {
+            panel1.Hide();
+            panel2.Show();
+            panel3.Hide();
+        }
+        private void switchPanelButton3_Click(object sender, EventArgs e)
+        {
+            panel1.Hide();
+            panel2.Hide();
+            panel3.Show();
+        }
+        #endregion
     }
 }
+
+
