@@ -45,6 +45,24 @@ def registration():
         return render_template('registration.html')
 
 
+@app.route('/login/', methods=('GET', 'POST'))
+def login():
+    if request.method == 'POST':
+        login = request.form['login']
+        password = request.form['password']
+
+        if not login:
+            flash('Login is required!')
+        elif not password:
+            flash('Password is required!')
+        else:
+            if db.session.query(User).filter_by(login=login, password=password).all():
+                return redirect(url_for('index'))
+            else:
+                return '<p>Пользователь не найден!</p>'
+    return render_template('registration.html')
+
+
 @app.route('/create/', methods=('GET', 'POST'))
 def create():
     if request.method == 'POST':
@@ -63,6 +81,7 @@ def create():
             db.session.commit()
             return redirect(url_for('index'))
     return render_template('create.html')
+
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
