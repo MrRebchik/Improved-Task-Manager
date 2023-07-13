@@ -42,7 +42,7 @@ def registration():
             db.session.add(User(login=login, password=password))
             db.session.commit()
             return redirect(url_for('index'))
-        return render_template('registration.html')
+    return render_template('registration.html')
 
 
 @app.route('/login/', methods=('GET', 'POST'))
@@ -60,7 +60,7 @@ def login():
                 return redirect(url_for('index'))
             else:
                 return '<p>Пользователь не найден!</p>'
-    return render_template('registration.html')
+    return render_template('login.html')
 
 
 @app.route('/create/', methods=('GET', 'POST'))
