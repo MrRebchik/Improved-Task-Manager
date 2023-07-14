@@ -37,6 +37,21 @@ namespace WinForms_Task_Manager_with_DB
         private Panel hierarchyPanel;
 
         #endregion
+        #region ListPanelComponents
+        private TableLayoutPanel tableLayoutPanel2;
+        private Panel buttonPanel2;
+        private RoundButton sortByImportance;
+        private RoundButton sortByDifficulty;
+        private RoundButton sortDirection;
+        private RoundButton sortByDeadline;
+        private RoundButton sortDirection2;
+        private Panel missionHolderPanel;
+        private TableLayoutPanel missionsHolderTable;
+        private Panel buttonPanel3;
+        private TextBox textBox;
+        private RoundButton searchButton;
+        #endregion
+
         private Color tabsColor = Color.PowderBlue;
         public MainForm()
         {
@@ -219,6 +234,7 @@ namespace WinForms_Task_Manager_with_DB
             buttonPanel.Location = new Point(5, 5);
 
             // Дальше наполнение 
+            InitializeListPanelComponents();
         }
         private void InitializeManagerTabComponents()
         {
@@ -232,7 +248,31 @@ namespace WinForms_Task_Manager_with_DB
         // Дальше под-вкладки
         private void InitializeListPanelComponents()
         {
-
+            tableLayoutPanel2 = new TableLayoutPanel()
+            {
+                CellBorderStyle = TableLayoutPanelCellBorderStyle.Inset,
+            };
+            tableLayoutPanel2.Dock = DockStyle.Fill;
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent,100));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute,50));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 50));
+            buttonPanel2 = new Panel()
+            {
+                Dock = DockStyle.Fill,
+            };
+            missionHolderPanel = new Panel()
+            {
+                Dock = DockStyle.Fill,
+            };
+            buttonPanel3 = new Panel()
+            {
+                Dock = DockStyle.Fill,
+            };
+            tableLayoutPanel2.Controls.Add(buttonPanel2,0,0);
+            tableLayoutPanel2.Controls.Add(missionHolderPanel, 0, 1);
+            tableLayoutPanel2.Controls.Add(buttonPanel3, 0, 2);
+            listPanel.Controls.Add(tableLayoutPanel2);
         }
         private void InitializeStickersPanelComponents()
         {

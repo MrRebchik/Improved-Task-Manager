@@ -14,6 +14,8 @@ namespace WinForms_Task_Manager_with_DB
         [STAThread]
         static void Main()
         {
+            Model model = new Model();
+            model.FillInEntireList();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainForm());
