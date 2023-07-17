@@ -4,6 +4,8 @@ from flask import request
 from flask import flash
 from flask import redirect
 from flask import url_for
+
+
 from oop.classes import Task
 
 from flask_login import login_required, LoginManager, login_user, UserMixin, logout_user
@@ -65,8 +67,10 @@ def login():
 
         if not u_login:
             flash('Login is required!')
+            return redirect(url_for('login'))
         elif not u_password:
             flash('Password is required!')
+            return redirect(url_for('login'))
         else:
             qr = db.session.query(User).filter_by(login=u_login).first()
             if qr:
@@ -77,7 +81,8 @@ def login():
                 return '<p>Пользователь не найден!</p>'
     return render_template('login.html')
 
-@app.route('/logout')
+
+@app.route('/logout/')
 @login_required
 def logout():
     logout_user()
@@ -110,6 +115,7 @@ def load_user(user_id):
     if qr:
         return qr
     return None
+
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
