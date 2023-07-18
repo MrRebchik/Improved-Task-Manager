@@ -18,7 +18,7 @@ import os
 
 from flask_sqlalchemy import SQLAlchemy
 
-basedir = os.path.abspath(os.path.dirname('../'))
+basedir = os.path.abspath(os.path.dirname('../../'))
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'a55a27362ac0c0b669849a161ee9c126c6afcbec809c4a4c'
