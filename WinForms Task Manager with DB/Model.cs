@@ -36,7 +36,15 @@ namespace WinForms_Task_Manager_with_DB
                         string name = reader.GetString(1);
                         string description = reader.GetString(2);
                         State state = (State)reader.GetInt32(3);
-                        DateTime deadLine = DateTime.Now;
+                        DateTime? deadLine;
+                        if (!reader.IsDBNull(4))
+                        {
+                            deadLine = reader.GetDateTime(4);
+                        }
+                        else
+                        {
+                            deadLine = null;
+                        }
                         DateTime creationDate = reader.GetDateTime(5);
                         DateTime? realFinishingDate;
                         if (!reader.IsDBNull(6))
@@ -138,5 +146,6 @@ namespace WinForms_Task_Manager_with_DB
 
         delegate void ModelHandler();
         event ModelHandler OnModelChanged;
+        
     }
 }
