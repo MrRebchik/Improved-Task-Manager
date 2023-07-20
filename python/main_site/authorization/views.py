@@ -7,7 +7,7 @@ from django.contrib.auth.forms import UserCreationForm
 
 # Create your views here.
 
-def registration(request):
+def signup(request):
     if request.method == 'POST':
         user_reg_form = UserCreationForm(request.POST)
         if user_reg_form.is_valid():
@@ -19,3 +19,7 @@ def registration(request):
     else:
         user_reg_form = UserCreationForm()
         return render(request, 'authorization/registration.html', {'form': user_reg_form})
+
+
+def signin(request):
+    pass
