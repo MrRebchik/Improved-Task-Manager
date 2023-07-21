@@ -13,10 +13,11 @@ def signup(request):
         user_reg_form = UserCreationForm(request.POST)
         if user_reg_form.is_valid():
             user_reg_form.save()
-            messages.success(request, 'Успешно рега')
-            return HttpResponse('<h1>Govno</h1>')
+            user = authenticate(request, username=request.POST['username'], password=request.POST['password'])
+            login(request, user)
+            return redirect('tasks')
         else:
-            return HttpResponse('<p>Вы обосрались</p>')
+            return redirect('/users/signup')
     else:
         user_reg_form = UserCreationForm()
         return render(request, 'authorization/signup.html', {'form': user_reg_form})
@@ -27,9 +28,9 @@ def signin(request):
         user = authenticate(request, username=request.POST['username'], password=request.POST['password'])
         if user is not None:
             login(request, user)
-            return HttpResponse('<p>Умный</p>')
+            return redirect('tasks')
         else:
-            return HttpResponse('<p>gyterte</p>')
+            return redirect('/users/signin')
     else:
         user_auth_form = AuthenticationForm()
         return render(request, 'authorization/signin.html', {'form': user_auth_form})
