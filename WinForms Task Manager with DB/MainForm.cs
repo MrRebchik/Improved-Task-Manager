@@ -53,21 +53,21 @@ namespace WinForms_Task_Manager_with_DB
         #endregion
 
         private Color tabsColor = Color.PowderBlue;
-        public MainForm()
+        internal MainForm(Control c)
         {
             InitializeAllComponents();
             this.MinimumSize = new Size(815, 690);
             #region подписка на события
-            panel1.Paint += (sender, e) => panel_Paint(panel1, sender, e);
-            panel2.Paint += (sender, e) => panel_Paint(panel2, sender, e);
-            panel3.Paint += (sender, e) => panel_Paint(panel3, sender, e);
-            switchPanelButton1.Click += (sender, e) => switchPanelButton1_Click(sender, e);
-            switchPanelButton2.Click += (sender, e) => switchPanelButton2_Click(sender, e);
-            switchPanelButton3.Click += (sender, e) => switchPanelButton3_Click(sender, e);
-            buttonPanel.Paint += (sender, e) => panel_Paint(buttonPanel, sender, e);
-            lists.Click += (sender, e) => lists_Click(sender, e);
-            stickers.Click += (sender, e) => stickers_Click(sender, e);
-            hierarchy.Click += (sender, e) => hierarchy_Click(sender, e);
+            panel1.Paint += (sender, e) => Panel_Paint(panel1, sender, e);
+            panel2.Paint += (sender, e) => Panel_Paint(panel2, sender, e);
+            panel3.Paint += (sender, e) => Panel_Paint(panel3, sender, e);
+            switchPanelButton1.Click += (sender, e) => SwitchPanelButton1_Click(sender, e);
+            switchPanelButton2.Click += (sender, e) => SwitchPanelButton2_Click(sender, e);
+            switchPanelButton3.Click += (sender, e) => SwitchPanelButton3_Click(sender, e);
+            buttonPanel.Paint += (sender, e) => Panel_Paint(buttonPanel, sender, e);
+            lists.Click += (sender, e) => Lists_Click(sender, e);
+            stickers.Click += (sender, e) => Stickers_Click(sender, e);
+            hierarchy.Click += (sender, e) => Hierarchy_Click(sender, e);
             #endregion
         }
         private void InitializeAllComponents()
@@ -248,11 +248,11 @@ namespace WinForms_Task_Manager_with_DB
         // Дальше под-вкладки
         private void InitializeListPanelComponents()
         {
-            tableLayoutPanel2 = new TableLayoutPanel()
+            tableLayoutPanel2 = new TableLayoutPanel
             {
                 CellBorderStyle = TableLayoutPanelCellBorderStyle.Inset,
+                Dock = DockStyle.Fill
             };
-            tableLayoutPanel2.Dock = DockStyle.Fill;
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent,100));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute,50));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
@@ -264,6 +264,7 @@ namespace WinForms_Task_Manager_with_DB
             missionHolderPanel = new Panel()
             {
                 Dock = DockStyle.Fill,
+                BackColor = Color.White,
             };
             buttonPanel3 = new Panel()
             {
@@ -273,6 +274,12 @@ namespace WinForms_Task_Manager_with_DB
             tableLayoutPanel2.Controls.Add(missionHolderPanel, 0, 1);
             tableLayoutPanel2.Controls.Add(buttonPanel3, 0, 2);
             listPanel.Controls.Add(tableLayoutPanel2);
+
+            UpdateMissionTable(Program.model.EntireList);
+            missionsHolderTable.AutoScroll = true;
+
+            missionHolderPanel.Controls.Add(missionsHolderTable);
+
         }
         private void InitializeStickersPanelComponents()
         {
@@ -282,7 +289,26 @@ namespace WinForms_Task_Manager_with_DB
         {
 
         }
-        void panel_Paint(Panel p, object sender, PaintEventArgs e)
+        internal void UpdateMissionTable(List<Mission> list)
+        {
+            missionsHolderTable = new TableLayoutPanel()
+            {
+                Dock = DockStyle.Fill,
+                Location = new Point(0, 0),
+            };
+            missionsHolderTable.ColumnStyles.Add(new ColumnStyle(SizeType.Percent,100));
+            missionsHolderTable.RowStyles.Add(new RowStyle(SizeType.Absolute, 35));
+            missionsHolderTable.Controls.Add(new MissionPanel(), 0, 0);
+            int rowsCount = 1;
+            foreach(var item in list)
+            {
+                missionsHolderTable.RowStyles.Add(new RowStyle(SizeType.Absolute, 110));
+                missionsHolderTable.Controls.Add(new MissionPanel(item), 0, rowsCount);
+                rowsCount++;
+
+            }
+        }
+        void Panel_Paint(Panel p, object sender, PaintEventArgs e)
         {
             int radius = 20;
             GraphicsPath path = new GraphicsPath();
@@ -297,19 +323,19 @@ namespace WinForms_Task_Manager_with_DB
             p.Region = new Region(path);
         }
         #region обработчики событий переключения вкладок
-        private void switchPanelButton1_Click(object sender, EventArgs e)
+        private void SwitchPanelButton1_Click(object sender, EventArgs e)
         {
             panel1.Show();
             panel2.Hide();
             panel3.Hide();
         }
-        private void switchPanelButton2_Click(object sender, EventArgs e)
+        private void SwitchPanelButton2_Click(object sender, EventArgs e)
         {
             panel1.Hide();
             panel2.Show();
             panel3.Hide();
         }
-        private void switchPanelButton3_Click(object sender, EventArgs e)
+        private void SwitchPanelButton3_Click(object sender, EventArgs e)
         {
             panel1.Hide();
             panel2.Hide();
@@ -317,21 +343,21 @@ namespace WinForms_Task_Manager_with_DB
         }
         #endregion
         #region обработчики событий переключения панелей первой вкладки
-        private void lists_Click(object sender, EventArgs e)
+        private void Lists_Click(object sender, EventArgs e)
         {
             listPanel.Show();
             stickersPanel.Hide();
             hierarchyPanel.Hide();
             buttonPanel.Location = new Point(5, 5);
         }
-        private void stickers_Click(object sender, EventArgs e)
+        private void Stickers_Click(object sender, EventArgs e)
         {
             listPanel.Hide();
             stickersPanel.Show();
             hierarchyPanel.Hide();
             buttonPanel.Location = new Point(5, 5);
         }
-        private void hierarchy_Click(object sender, EventArgs e)
+        private void Hierarchy_Click(object sender, EventArgs e)
         {
             listPanel.Hide();
             stickersPanel.Hide();

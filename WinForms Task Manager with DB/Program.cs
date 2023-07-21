@@ -8,17 +8,21 @@ namespace WinForms_Task_Manager_with_DB
 {
     internal static class Program
     {
+        internal static Model model;
+        internal static Control control;
+        internal static Form view;
         /// <summary>
         /// Главная точка входа для приложения.
         /// </summary>
         [STAThread]
-        static void Main()
+        internal static void Main()
         {
-            Model model = new Model();
-            model.FillInEntireList();
+            //model.FillInEntireList();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
+            model = new Model();
+            control = new Control(new InitializationState(),model,view);
+            Application.Run(control.View);
         }
     }
 }

@@ -65,8 +65,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Control.cs" />
+    <Compile Include="Classes\User.cs" />
+    <Compile Include="LogInForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Components\MissionPanel.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="MissionText.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -76,12 +83,17 @@
     <Compile Include="Model.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Mission.cs" />
-    <Compile Include="RoundButton.cs">
+    <Compile Include="Classes\Mission.cs" />
+    <Compile Include="Components\RoundButton.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="SqlHelper.cs" />
-    <Compile Include="View.cs" />
+    <Compile Include="Components\RoundTab.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Components\RoundTabsControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Classes\SqlHelper.cs" />
     <EmbeddedResource Include="MissionText.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>MissionText.Designer.cs</LastGenOutput>
