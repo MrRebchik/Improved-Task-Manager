@@ -53,7 +53,7 @@ namespace WinForms_Task_Manager_with_DB
         #endregion
 
         private Color tabsColor = Color.PowderBlue;
-        public MainForm()
+        internal MainForm(Control c)
         {
             InitializeAllComponents();
             this.MinimumSize = new Size(815, 690);
