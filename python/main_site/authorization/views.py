@@ -1,9 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
 
 
 # Create your views here.
@@ -24,7 +24,17 @@ def signup(request):
 
 def signin(request):
     if request.method == 'POST':
-        user_auth_form = AuthenticationForm(request.POST)
+        user = authenticate(request, username=request.POST['username'], password=request.POST['password'])
+        if user is not None:
+            login(request, user)
+            return HttpResponse('<p>Умный</p>')
+        else:
+            return HttpResponse('<p>gyterte</p>')
     else:
         user_auth_form = AuthenticationForm()
         return render(request, 'authorization/signin.html', {'form': user_auth_form})
+
+
+def logout_user(request):
+    logout(request)
+    return HttpResponse('Логаут')
