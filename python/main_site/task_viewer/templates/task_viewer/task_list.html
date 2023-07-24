@@ -9,5 +9,7 @@
 	            <p>{{ task.description }}</p>
 	        </div>
 	    {% endfor %}
+	{% else %}
+	    <p>У Вас нет заданий. <a href="#">Добавить?</a></p>
 	{% endif %}
 {% endblock %}
