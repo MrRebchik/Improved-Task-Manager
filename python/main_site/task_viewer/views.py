@@ -9,7 +9,7 @@ import os
 
 
 def task_list(request, user):
-    user_task_dir = settings.BASE_DIR.parent.parent / f'tasks/{user}'
+    user_task_dir = settings.BASE_DIR.parent.parent / f'users/{user}/tasks'
     if not os.path.exists(user_task_dir):
         os.mkdir(user_task_dir)
         with open(user_task_dir / '_NameNode.json', 'w') as f:
