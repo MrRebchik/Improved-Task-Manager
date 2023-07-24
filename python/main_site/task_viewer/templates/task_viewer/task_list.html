@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% if tasks %}
+		{% for task in tasks %}
+	        <div class="task">
+	            <h1>{{ task.title }}</h1>
+	            <p>{{ task.date }}</p>
+	            <p>{{ task.description }}</p>
+	        </div>
+	    {% endfor %}
+	{% endif %}
+{% endblock %}
