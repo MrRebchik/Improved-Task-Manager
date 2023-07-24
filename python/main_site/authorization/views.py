@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-
+from django.urls import reverse
+from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
@@ -13,9 +14,9 @@ def signup(request):
         user_reg_form = UserCreationForm(request.POST)
         if user_reg_form.is_valid():
             user_reg_form.save()
-            user = authenticate(request, username=request.POST['username'], password=request.POST['password'])
+            user = authenticate(request, username=request.POST['username'], password=request.POST['password1'])
             login(request, user)
-            return redirect('tasks')
+            return HttpResponseRedirect(reverse('task_list', args=[request.user.username]))
         else:
             return redirect('/users/signup')
     else:
@@ -28,7 +29,7 @@ def signin(request):
         user = authenticate(request, username=request.POST['username'], password=request.POST['password'])
         if user is not None:
             login(request, user)
-            return redirect('tasks')
+            return redirect(f'{request.user.username}/tasks')
         else:
             return redirect('/users/signin')
     else:
