@@ -19,5 +19,7 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', include('authorization.urls')),
     path('users/', include('authorization.urls')),
+    path('<str:user>/', include('task_viewer.urls')),
 ]
