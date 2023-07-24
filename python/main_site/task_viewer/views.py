@@ -14,4 +14,14 @@ def task_list(request, user):
         os.mkdir(user_task_dir)
         with open(user_task_dir / '_NameNode.json', 'w') as f:
             json.dump({'user': user, 'task_ids': []}, f)
-    return HttpResponse('Пописал')
+    tasks = []
+    name_node_path = user_task_dir / '_NameNode.json'
+    with open(name_node_path, 'r') as f:
+        name_node = json.load(f)
+    for i in name_node['task_ids']:
+        with open(user_task_dir / i, 'r') as curr_task_f:
+            tasks.append(curr_task_f)
+    return render(request, 'task_viewer/task_list.html', {'tasks': tasks})
+
+def read_task_for_list():
+    pass
