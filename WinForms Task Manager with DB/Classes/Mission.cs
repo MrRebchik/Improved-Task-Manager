@@ -38,17 +38,18 @@ namespace WinForms_Task_Manager_with_DB
         public int Id { get; private set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        private State state;
         public State State 
         { 
-            get{ return State; } 
+            get{ return state; } 
             set
             {
                 if (value == State.Done)
                 {
-                    this.State = value;
+                    state = value;
                     this.RealFinishingDate = DateTime.Now;
                 }
-                else { this.State = value; }
+                else { state = value; }
             }
         }
         public int? Parent { get; set; }

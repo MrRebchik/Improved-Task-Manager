@@ -17,6 +17,7 @@ namespace WinForms_Task_Manager_with_DB
         public Model()
         {
             ConnectionString = ConfigurationManager.ConnectionStrings["MissionsDB"].ConnectionString;
+            EntireList = new List<Mission>();
         }
         /// <summary>
         /// Метод для заполнения списка заданий из таблицы с сохраненными
@@ -32,16 +33,40 @@ namespace WinForms_Task_Manager_with_DB
                     while (reader.Read())
                     {
                         int id = reader.GetInt32(0);
+                        string name = reader.GetString(1);
+                        string description = reader.GetString(2);
+                        State state = (State)reader.GetInt32(3);
+                        DateTime? deadLine;
+                        if (!reader.IsDBNull(4))
+                        {
+                            deadLine = reader.GetDateTime(4);
+                        }
+                        else
+                        {
+                            deadLine = null;
+                        }
+                        DateTime creationDate = reader.GetDateTime(5);
+                        DateTime? realFinishingDate;
+                        if (!reader.IsDBNull(6))
+                        {
+                            realFinishingDate = reader.GetDateTime(6);
+                        }
+                        else
+                        {
+                            realFinishingDate = null;
+                        }
+                        Difficulty difficulty = (Difficulty)reader.GetInt32(7);
+                        Priority priority = (Priority)reader.GetInt32(8);
                         Mission item = new Mission(id)
                         {
-                            Name = reader.GetString(1),
-                            Description = reader.GetString(2),
-                            State = (State)reader.GetInt32(3),
-                            DeadLine = reader.GetDateTime(4),
-                            CreationDate = reader.GetDateTime(5),
-                            RealFinishingDate = reader.GetDateTime(6),
-                            Difficulty = (Difficulty)reader.GetInt32(7),
-                            Priority = (Priority)reader.GetInt32(8),
+                            Name = name,
+                            Description = description,
+                            State = state,
+                            DeadLine = deadLine,
+                            CreationDate = creationDate,
+                            RealFinishingDate = realFinishingDate,
+                            Difficulty = difficulty,
+                            Priority = priority,
 
                         };
 
@@ -121,5 +146,6 @@ namespace WinForms_Task_Manager_with_DB
 
         delegate void ModelHandler();
         event ModelHandler OnModelChanged;
+        
     }
 }
