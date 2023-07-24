@@ -5,7 +5,10 @@ from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
+from django.conf import settings
 
+
+import os
 
 # Create your views here.
 
@@ -16,6 +19,7 @@ def signup(request):
             user_reg_form.save()
             user = authenticate(request, username=request.POST['username'], password=request.POST['password1'])
             login(request, user)
+            os.mkdir(settings.BASE_DIR.parent.parent / f'users/{request.user.username}')
             return HttpResponseRedirect(reverse('task_list', args=[request.user.username]))
         else:
             return redirect('/users/signup')
