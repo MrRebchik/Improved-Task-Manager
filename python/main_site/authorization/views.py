@@ -20,7 +20,7 @@ def signup(request):
             user = authenticate(request, username=request.POST['username'], password=request.POST['password1'])
             login(request, user)
             os.mkdir(settings.BASE_DIR.parent.parent / f'users/{request.user.username}')
-            return HttpResponseRedirect(reverse('task_list', args=[request.user.username]))
+            return HttpResponseRedirect(reverse('task_list', kwargs={'user': request.user.username}))
         else:
             return redirect('/users/signup')
     else:
