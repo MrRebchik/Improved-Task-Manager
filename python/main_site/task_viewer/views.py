@@ -22,7 +22,7 @@ def task_list(request, user):
     with open(name_node_path, 'r') as f:
         name_node = json.load(f)
     for i in name_node['task_ids']:
-        with open(user_task_dir / i, 'r') as curr_task_f:
+        with open(user_task_dir / f'{i}.json', 'r') as curr_task_f:
             tasks.append(json.load(curr_task_f))
     print(tasks)
     return render(request, 'task_viewer/task_list.html', {'tasks': tasks})
@@ -41,7 +41,7 @@ def task_create(request, user):
                 f.seek(0)
                 f.truncate()
                 json.dump(name_node, f)
-            with open(user_task_dir / f'{task_title}', 'w') as f:
+            with open(user_task_dir / f'{task_title}.json', 'w') as f:
                 json.dump({'title': task_title, 'date': task_date}, f)
             return HttpResponseRedirect(reverse('task_list', kwargs={'user': request.user.username}))
         else:
