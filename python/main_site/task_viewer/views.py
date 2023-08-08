@@ -50,3 +50,18 @@ def task_create(request, user):
     else:
         form = TaskForm()
         return render(request, 'task_viewer/task_create.html', {'form': form})
+
+def task_delete(request, user, id):
+    if request.method == 'POST':
+        print('TSAR PIZDY')
+        user_task_dir = settings.BASE_DIR.parent.parent / f'users/{request.user.username}/tasks'
+        os.remove(user_task_dir / (id + '.json'))
+        if not os.path.exists(user_task_dir / str(id)):
+            with open(user_task_dir / '_NameNode.json', 'r+') as f:
+                name_node = json.load(f)
+                name_node['task_ids'].remove(id)
+                f.seek(0)
+                f.truncate()
+                json.dump(name_node, f)
+    return HttpResponseRedirect('/')
+

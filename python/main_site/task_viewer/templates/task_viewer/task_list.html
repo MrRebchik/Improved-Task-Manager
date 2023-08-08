@@ -3,14 +3,18 @@
 {% block content %}
     {% if tasks %}
 		{% for task in tasks %}
-	        <div class="task">
+	        <div class="task" id="{{ task.title }}">
 	            <h1>{{ task.title }}</h1>
 	            <p>{{ task.date }}</p>
 	            <p>{{ task.description }}</p>
+	            <button type="button" class="delete_task">Удалить задание?</button>
 	        </div>
 	    {% endfor %}
 	{% else %}
 	    <p>У Вас нет заданий. <a href="create">Добавить?</a></p>
 	{% endif %}
-	<p><a href="create">Добавить задание?</a></p>
+{% endblock %}
+{% block scripts %}
+	{% load static %}
+	<script src="{% static 'task_viewer/js/tasks_page.js' %}"></script>
 {% endblock %}
