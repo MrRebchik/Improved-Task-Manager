@@ -29,5 +29,4 @@ func main() {
 		fmt.Printf("Some error is occured: %s\n", err)
 		os.Exit(1)
 	}
-	fmt.Printf
 }
