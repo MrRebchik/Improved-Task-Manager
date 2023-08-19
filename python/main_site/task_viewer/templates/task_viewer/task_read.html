@@ -12,9 +12,9 @@
 	            <button type="button" class="delete_task">Удалить задание?</button>
 	        </div>
 	    {% endfor %}
-	{% else %}
-	    <p>У Вас нет заданий. <a href="create">Добавить?</a></p>
 	{% endif %}
+	<br>
+	<button type="button" class="create_task">Добавить?</button>
 {% endblock %}
 {% block scripts %}
 	{% load static %}
