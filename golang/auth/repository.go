@@ -1,9 +1,10 @@
 package auth
 
 import (
-	user "github.com/MrRebchik/Improved-Task-Manager/models"
+	users "github.com/MrRebchik/Improved-Task-Manager/models"
 )
 
 type Authorization interface {
-	user.User
+	CreateUser(user users.User) (error, int)
+	GetUser(username, password string) (users.User, error)
 }
