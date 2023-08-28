@@ -5,7 +5,7 @@ import (
 	"github.com/MrRebchik/Improved-Task-Manager/models"
 )
 
-type Authorization interface {
+type UserRepository interface {
 	CreateUser(ctx context.Context, user *models.User) (error, int)
 	GetUser(ctx context.Context, username, password string) (*models.User, error)
 }
