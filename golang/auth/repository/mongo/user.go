@@ -14,27 +14,12 @@ type User struct {
 	Password string             `bson:"password"`
 }
 
-func toMongoUser(user *models.User) *User {
-	return &User{
-		Username: user.Username,
-		Password: user.Password,
-	}
-}
-
-func toModelUser(user *User) *models.User {
-	return &models.User{
-		ID:       user.ID.Hex(),
-		Username: user.Username,
-		Password: user.Password,
-	}
-}
-
 type UserRepository struct {
 	db *mongo.Collection
 }
 
 func (r UserRepository) CreateUser(ctx context.Context, user *models.User) error {
-	mongoModel := toMongoUser(user)
+	mongoModel := models.ToMongoUser(user)
 	res, err := r.db.InsertOne(ctx, mongoModel)
 	if err != nil {
 		return err
