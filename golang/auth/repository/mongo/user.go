@@ -18,6 +18,12 @@ type UserRepository struct {
 	db *mongo.Collection
 }
 
+func NewUserRepository(db *mongo.Database, collection string) *UserRepository {
+	return &UserRepository{
+		db: db.Collection(collection),
+	}
+}
+
 func (r UserRepository) CreateUser(ctx context.Context, user *models.User) error {
 	mongoModel := models.ToMongoUser(user)
 	res, err := r.db.InsertOne(ctx, mongoModel)
