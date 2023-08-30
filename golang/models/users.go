@@ -8,14 +8,14 @@ type User struct {
 	Password string
 }
 
-func ToMongoUser(u *User) *mongo.User {
-	return &mongo.User{
+func ToMongoUser(u *User) *repository_mongo.User {
+	return &repository_mongo.User{
 		Username: u.Username,
 		Password: u.Password,
 	}
 }
 
-func ToModelUser(u *mongo.User) *User {
+func ToModelUser(u *repository_mongo.User) *User {
 	return &User{
 		ID:       u.ID.Hex(),
 		Username: u.Username,
