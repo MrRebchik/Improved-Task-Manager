@@ -9,9 +9,9 @@ import (
 )
 
 func main() {
-	if err := initConfig(); err != nil {
-		log.Fatalf("%s", err.Error())
-	}
+	//if err := initConfig(); err != nil {
+	//	log.Fatalf("%s", err.Error())
+	//}
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		render(w, "welcome_page.gohtml")
@@ -32,13 +32,13 @@ func main() {
 func render(w http.ResponseWriter, t string) {
 
 	partials := []string{
-		"./broker/front/templates/base.layout.gohtml",
-		"./broker/front/templates/header.partial.gohtml",
-		"./broker/front/templates/footer.partial.gohtml",
+		"./front/templates/base.layout.gohtml",
+		"./front/templates/header.partial.gohtml",
+		"./front/templates/footer.partial.gohtml",
 	}
 
 	var templateSlice []string
-	templateSlice = append(templateSlice, fmt.Sprintf("./broker/front/templates/%s", t))
+	templateSlice = append(templateSlice, fmt.Sprintf("./front/templates/%s", t))
 
 	for _, x := range partials {
 		templateSlice = append(templateSlice, x)
