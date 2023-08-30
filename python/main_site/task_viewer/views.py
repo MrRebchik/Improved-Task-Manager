@@ -11,7 +11,7 @@ import os
 # Create your views here.
 
 
-def task_list(request, user):
+def task_read(request, user):
     user_task_dir = settings.BASE_DIR.parent.parent / f'users/{request.user.username}/tasks'
     if not os.path.exists(user_task_dir):
         os.mkdir(user_task_dir)
@@ -22,10 +22,18 @@ def task_list(request, user):
     with open(name_node_path, 'r') as f:
         name_node = json.load(f)
     for i in name_node['task_ids']:
+        task_path = user_task_dir / f'{i}.json'
+        if not os.path.exists(task_path):
+            name_node['task_ids'].remove(i)
+            continue
         with open(user_task_dir / f'{i}.json', 'r') as curr_task_f:
             tasks.append(json.load(curr_task_f))
+    with open(user_task_dir / '_NameNode.json', 'r+') as f:
+        f.seek(0)
+        f.truncate()
+        json.dump(name_node, f)
     print(tasks)
-    return render(request, 'task_viewer/task_list.html', {'tasks': tasks})
+    return render(request, 'task_viewer/task_read.html', {'tasks': tasks})
 
 
 def task_create(request, user):
@@ -43,7 +51,7 @@ def task_create(request, user):
                 json.dump(name_node, f)
             with open(user_task_dir / f'{task_title}.json', 'w') as f:
                 json.dump({'title': task_title, 'date': task_date}, f)
-            return HttpResponseRedirect(reverse('task_list', kwargs={'user': request.user.username}))
+            return HttpResponseRedirect(reverse('task_read', kwargs={'user': request.user.username}))
         else:
             form = TaskForm()
             return render(request, 'task_viewer/task_create.html', {'form': form})

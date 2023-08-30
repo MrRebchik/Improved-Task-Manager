@@ -15,8 +15,11 @@ $(document).ready(function () {
         return cookieValue;
     }
 
-    var csrf_token = getCookie('csrftoken')
+    var csrf_token = getCookie('csrftoken');
 
+    $('button.create_task').on('click', function () {
+        window.location.href = '/create';
+    })
 
     $('button.delete_task').on('click', function () {
         let curr_el = $(this)
