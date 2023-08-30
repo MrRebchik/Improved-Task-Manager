@@ -2,7 +2,7 @@ package repository_mongo
 
 import (
 	"context"
-	models "github.com/MrRebchik/Improved-Task-Manager/models"
+	"github.com/MrRebchik/Improved-Task-Manager/auth/models"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"

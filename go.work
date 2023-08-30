@@ -1,3 +1,7 @@
 go 1.21.0
 
-use ./golang
+use (
+	./golang/auth
+	./golang/broker
+	./golang/frontend
+)

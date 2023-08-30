@@ -3,7 +3,7 @@ package service
 import (
 	"context"
 	"github.com/MrRebchik/Improved-Task-Manager/auth"
-	"github.com/MrRebchik/Improved-Task-Manager/models"
+	"github.com/MrRebchik/Improved-Task-Manager/auth/models"
 	"time"
 )
 
