@@ -1,4 +1,4 @@
-module github.com/MrRebchik/Improved-Task-Manager/broker
+module github.com/MrRebchik/Improved-Task-Manager/auth_test
 
 go 1.21.0
 
