@@ -1,8 +1,5 @@
 go 1.21.0
 
 use (
-	./golang/auth
-	./golang/broker
-	./golang/frontend
-	./golang/auth_test
+	./golang/authorization
 )
