@@ -15,10 +15,10 @@ func NewSqliteRepository(db *gorm.DB) *SqliteRepository {
 	}
 }
 
-func (r *SqliteRepository) GetUser(user *models.User) *models.User {
+func (r *SqliteRepository) GetUser(user *models.User) (*models.User, error) {
 	// TODO GetUser
 
-	return nil
+	return nil, nil
 }
 
 func (r *SqliteRepository) CreateUser(user *models.User) (*models.User, error) {
