@@ -21,7 +21,7 @@ func (h *GinHttpHandler) InitRoutes() *gin.Engine {
 	auth := g.Group("/auth")
 	{
 		auth.POST("/sign-in")
-		auth.POST("sign-up")
+		auth.POST("/sign-up")
 	}
 
 	return g
