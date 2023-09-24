@@ -2,7 +2,7 @@ package service
 
 import (
 	"authorization/models"
-	"authorization/pkg/repository"
+	"authorization/pkg/infrastructure/repository"
 )
 
 type AuthorizationService struct {
