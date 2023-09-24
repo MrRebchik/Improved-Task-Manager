@@ -14,8 +14,15 @@ type Repository struct {
 	Authorization
 }
 
-func NewRepository(db *gorm.DB) *Repository {
-	return &Repository{
-		Authorization: NewSqliteRepository(db),
+func NewRepository(db *gorm.DB, typeDB string) *Repository {
+	switch typeDB {
+	case "sqlite":
+		return &Repository{
+			Authorization: NewSqliteRepository(db),
+		}
+	default:
+		return &Repository{
+			Authorization: NewSqliteRepository(db),
+		}
 	}
 }
