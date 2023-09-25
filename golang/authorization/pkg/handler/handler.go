@@ -1,13 +1,16 @@
 package handler
 
 import (
+	handler "authorization/pkg/handler/http"
 	"authorization/pkg/service"
-	"context"
+	"github.com/gin-gonic/gin"
 )
 
 type HttpHandler interface {
-	GetUser(ctx *context.Context)
-	CreateUser(ctx *context.Context)
+	GetSingleUser(ctx *gin.Context)
+	GetPluralUser(ctx *gin.Context)
+	CreateUser(ctx *gin.Context)
+	UpdateUser(ctx *gin.Context)
 }
 
 type BrokerHandler interface {
@@ -19,8 +22,8 @@ type Handler struct {
 	BrokerHandler
 }
 
-func NewHandler(services service.Service) *Handler {
+func NewHandler(services *service.Service) *Handler {
 	return &Handler{
-		// TODO Handler return
+		HttpHandler: handler.NewGinHttpHandler(services),
 	}
 }
