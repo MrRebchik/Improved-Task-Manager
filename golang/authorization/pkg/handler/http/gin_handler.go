@@ -24,5 +24,14 @@ func (h *GinHttpHandler) InitRoutes() *gin.Engine {
 		auth.POST("/sign-up")
 	}
 
+	api := auth.Group("/api")
+	{
+		api.GET("/")
+		api.GET("/:id")
+		api.POST("/")
+		api.PUT("/")
+		api.DELETE("/")
+	}
+
 	return g
 }
