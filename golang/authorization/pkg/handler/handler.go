@@ -7,13 +7,13 @@ import (
 )
 
 type HttpHandler interface {
-	SignUpUser(ctx *gin.Context)
-	SignInUser(ctx *gin.Context)
-	GetSingleUser(ctx *gin.Context)
-	GetPluralUser(ctx *gin.Context)
-	DeleteUser(ctx *gin.Context)
-	CreateUser(ctx *gin.Context)
-	UpdateUser(ctx *gin.Context)
+	SignUpUser(c *gin.Context)
+	SignInUser(c *gin.Context)
+	GetSingleUser(c *gin.Context)
+	GetPluralUser(c *gin.Context)
+	DeleteUser(c *gin.Context)
+	CreateUser(c *gin.Context)
+	UpdateUser(c *gin.Context)
 }
 
 type BrokerHandler interface {
