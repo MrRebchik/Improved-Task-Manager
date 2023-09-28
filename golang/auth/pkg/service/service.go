@@ -5,17 +5,18 @@ import (
 	"authorization/pkg/infrastructure/repository"
 )
 
-type Authorization interface {
+type Auth interface {
 	GetUser(user *models.User) (*models.User, error)
 	CreateUser(user *models.User) (*models.User, error)
+	ParseToken(user *models.User) (string, error)
 }
 
 type Service struct {
-	Authorization
+	Auth
 }
 
 func NewService(repo *repository.Repository) *Service {
 	return &Service{
-		Authorization: NewAuthorizationService(repo),
+		Auth: NewAuthService(repo),
 	}
 }
