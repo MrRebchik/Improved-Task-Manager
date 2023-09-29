@@ -3,6 +3,8 @@ package service
 import (
 	"authorization/models"
 	"authorization/pkg/infrastructure/repository"
+	"encoding/json"
+	"github.com/sirupsen/logrus"
 )
 
 type AuthService struct {
@@ -15,19 +17,30 @@ func NewAuthService(repo *repository.Repository) *AuthService {
 	}
 }
 
-func (s *AuthService) GetUser(user *models.User) (*models.User, error) {
-	// TODO GetUser
+func (s *AuthService) GetUser(userJSON []byte) (*models.User, error) {
+	var user *models.User
+
+	logrus.Infoln("Unmarshalling request")
+
+	err := json.Unmarshal(userJSON, &user)
+
+	if err != nil {
+		logrus.Errorln("Error while unmarshalling userJSON")
+		return nil, err
+	}
+
+	logrus.Infoln("Unmarshalled user ", user.Username)
+
+	user, err = s.repo.CreateUser(user)
+
+	return user, err
+}
+
+func (s *AuthService) CreateUser(userJSON []byte) (*models.User, error) {
 
 	return nil, nil
 }
 
-func (s *AuthService) CreateUser(user *models.User) (*models.User, error) {
-
-	// TODO CreateUser
-
-	return nil, nil
-}
-
-func (s *AuthService) ParseToken(user *models.User) (string, error) {
+func (s *AuthService) ParseToken(userJSON []byte) (string, error) {
 	return "", nil
 }
