@@ -6,9 +6,9 @@ import (
 )
 
 type Auth interface {
-	GetUser(user *models.User) (*models.User, error)
-	CreateUser(user *models.User) (*models.User, error)
-	ParseToken(user *models.User) (string, error)
+	GetUser(userJSON []byte) (*models.User, error)
+	CreateUser(userJSON []byte) (*models.User, error)
+	ParseToken(userJSON []byte) (string, error)
 }
 
 type Service struct {

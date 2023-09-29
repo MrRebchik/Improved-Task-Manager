@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"authorization/models"
+	"encoding/json"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -34,12 +34,14 @@ func (h *GinHttpHandler) SignUpUser(c *gin.Context) {
 		return
 	}
 
-	UserModel := &models.User{
-		Username: signUpRequest.Username,
-		Password: signUpRequest.Password,
+	UserModelJSON, err := json.Marshal(signUpRequest)
+
+	if err != nil {
+		err = c.AbortWithError(http.StatusInternalServerError, err)
+		return
 	}
 
-	UserModel, err = h.services.CreateUser(UserModel)
+	_, err = h.services.CreateUser(UserModelJSON)
 
 	signUpResponse := SignUpResponse{
 		Error:       err,
