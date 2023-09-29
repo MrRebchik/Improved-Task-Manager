@@ -54,6 +54,28 @@ func (h *GinHttpHandler) SignUpUser(c *gin.Context) {
 }
 
 func (h *GinHttpHandler) SignInUser(c *gin.Context) {
-	// TODO
+	var signInRequest SignInRequest
+	err := c.Bind(&signInRequest)
+	if err != nil {
+		err = c.AbortWithError(http.StatusInternalServerError, err)
+		return
+	}
+
+	UserModelJSON, err := json.Marshal(signInRequest)
+
+	if err != nil {
+		err = c.AbortWithError(http.StatusInternalServerError, err)
+		return
+	}
+
+	_, err = h.services.GetSingleUser(UserModelJSON)
+
+	signUpResponse := SignInResponse{
+		Error:       err,
+		AccessToken: "",
+	}
+
+	c.JSON(http.StatusOK, signUpResponse)
+
 	return
 }
