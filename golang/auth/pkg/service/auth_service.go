@@ -30,8 +30,17 @@ func (s *AuthService) GetSingleUser(userJSON []byte) (*models.User, error) {
 }
 
 func (s *AuthService) CreateUser(userJSON []byte) (*models.User, error) {
+	var user *models.User
 
-	return nil, nil
+	err := user.UnmarshalJSONToUser(userJSON)
+
+	if err != nil {
+		return nil, err
+	}
+
+	user, err = s.repo.CreateUser(user)
+
+	return user, err
 }
 
 func (s *AuthService) ParseToken(userJSON []byte) (string, error) {
