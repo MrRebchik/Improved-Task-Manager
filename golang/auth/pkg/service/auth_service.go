@@ -17,7 +17,7 @@ func NewAuthService(repo *repository.Repository) *AuthService {
 	}
 }
 
-func (s *AuthService) GetUser(userJSON []byte) (*models.User, error) {
+func (s *AuthService) GetSingleUser(userJSON []byte) (*models.User, error) {
 	var user *models.User
 
 	logrus.Infoln("Unmarshalling request")
@@ -31,7 +31,7 @@ func (s *AuthService) GetUser(userJSON []byte) (*models.User, error) {
 
 	logrus.Infoln("Unmarshalled user ", user.Username)
 
-	user, err = s.repo.CreateUser(user)
+	user, err = s.repo.GetSingleUser(user)
 
 	return user, err
 }

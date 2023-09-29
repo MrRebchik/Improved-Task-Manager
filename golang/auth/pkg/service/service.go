@@ -6,7 +6,7 @@ import (
 )
 
 type Auth interface {
-	GetUser(userJSON []byte) (*models.User, error)
+	GetSingleUser(userJSON []byte) (*models.User, error)
 	CreateUser(userJSON []byte) (*models.User, error)
 	ParseToken(userJSON []byte) (string, error)
 }
