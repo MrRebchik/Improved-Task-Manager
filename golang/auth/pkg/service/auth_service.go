@@ -3,7 +3,6 @@ package service
 import (
 	"authorization/models"
 	"authorization/pkg/infrastructure/repository"
-	"encoding/json"
 	"github.com/sirupsen/logrus"
 )
 
@@ -22,14 +21,11 @@ func (s *AuthService) GetSingleUser(userJSON []byte) (*models.User, error) {
 
 	logrus.Infoln("Unmarshalling request")
 
-	err := json.Unmarshal(userJSON, &user)
+	err := user.UnmarshalJSONToUser(userJSON)
 
 	if err != nil {
-		logrus.Errorln("Error while unmarshalling userJSON")
 		return nil, err
 	}
-
-	logrus.Infoln("Unmarshalled user ", user.Username)
 
 	user, err = s.repo.GetSingleUser(user)
 
