@@ -17,9 +17,19 @@ func NewSqliteRepository(db *gorm.DB) *SqliteRepository {
 }
 
 func (r *SqliteRepository) GetSingleUser(user *models.User) (*models.User, error) {
-	// TODO GetUser
 
-	return nil, nil
+	logrus.Infoln("Trying to find user ", user.Username)
+
+	result := r.db.Find(&user)
+
+	if result.Error != nil {
+		logrus.Errorln("Error while creating user ", user.Username)
+		return nil, result.Error
+	}
+
+	logrus.Infof("Found user %s with ID %s\n", user.Username, user.ID)
+
+	return user, nil
 }
 
 func (r *SqliteRepository) CreateUser(user *models.User) (*models.User, error) {
