@@ -12,6 +12,8 @@ type User struct {
 }
 
 func (u *User) UnmarshalJSONToUser(userJSON []byte) error {
+	logrus.Infoln("Unmarshalling request")
+
 	err := json.Unmarshal(userJSON, &u)
 
 	if err != nil {
