@@ -3,7 +3,6 @@ package service
 import (
 	"authorization/models"
 	"authorization/pkg/infrastructure/repository"
-	"github.com/sirupsen/logrus"
 )
 
 type AuthService struct {
@@ -18,8 +17,6 @@ func NewAuthService(repo *repository.Repository) *AuthService {
 
 func (s *AuthService) GetSingleUser(userJSON []byte) (*models.User, error) {
 	var user *models.User
-
-	logrus.Infoln("Unmarshalling request")
 
 	err := user.UnmarshalJSONToUser(userJSON)
 
