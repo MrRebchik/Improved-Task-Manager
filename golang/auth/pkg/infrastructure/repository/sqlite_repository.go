@@ -23,7 +23,7 @@ func (r *SqliteRepository) GetSingleUser(user *models.User) (*models.User, error
 	result := r.db.Find(&user)
 
 	if result.Error != nil {
-		logrus.Errorln("Error while creating user ", user.Username)
+		logrus.Errorln("Error while finding user ", user.Username)
 		return nil, result.Error
 	}
 
