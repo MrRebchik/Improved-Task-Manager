@@ -6,7 +6,7 @@ import (
 )
 
 type Authorization interface {
-	GetUser(user *models.User) (*models.User, error)
+	GetSingleUser(user *models.User) (*models.User, error)
 	CreateUser(user *models.User) (*models.User, error)
 }
 
