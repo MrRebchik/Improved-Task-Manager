@@ -16,7 +16,7 @@ type Repository struct {
 
 func NewRepository(db *gorm.DB, typeDB string) *Repository {
 	switch typeDB {
-	case "sqlite":
+	case "sqlite.db":
 		return &Repository{
 			Authorization: NewSqliteRepository(db),
 		}

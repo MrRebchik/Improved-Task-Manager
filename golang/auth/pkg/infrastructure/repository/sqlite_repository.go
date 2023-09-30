@@ -3,11 +3,20 @@ package repository
 import (
 	"authorization/models"
 	"github.com/sirupsen/logrus"
+	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
 
 type SqliteRepository struct {
 	db *gorm.DB
+}
+
+func NewSqliteDB(dbpath string) *gorm.DB {
+	sqliteDB, err := gorm.Open(sqlite.Open(dbpath), &gorm.Config{})
+	if err != nil {
+		logrus.Fatalln(err)
+	}
+	return sqliteDB
 }
 
 func NewSqliteRepository(db *gorm.DB) *SqliteRepository {
